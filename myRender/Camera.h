@@ -24,6 +24,7 @@ private:
 	float fov_; //度
 	float farClip_;
 	float nearClip_;
+
 	float inWidth_;
 	float inHeight_;
 	float aspect_;
