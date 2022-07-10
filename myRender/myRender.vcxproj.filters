@@ -40,7 +40,7 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ImportedModel.cpp">
-      <Filter>头文件</Filter>
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +48,18 @@
       <Filter>shader</Filter>
     </None>
     <None Include="vertShader.glsl">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="colorFrag.glsl">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="colorVert.glsl">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="blinnVert.glsl">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="blinnFrag.glsl">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>
@@ -71,6 +83,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="ImportedModel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
