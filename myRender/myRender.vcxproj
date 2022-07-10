@@ -149,6 +149,7 @@
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ControllerManager.cpp" />
+    <ClCompile Include="ImportedModel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WindowManager.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="ControllerManager.h" />
+    <ClInclude Include="ImportedModel.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
