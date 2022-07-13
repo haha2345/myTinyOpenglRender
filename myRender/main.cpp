@@ -8,6 +8,9 @@
 #include <memory>
 #include <glm\gtc\type_ptr.hpp> // glm::value_ptr
 #include <glm\gtc\matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 #include "Utils.h"
 #include "WindowManager.h"
 #include "CameraManager.h"
@@ -38,10 +41,13 @@ ImportedModel myModel = ImportedModel(R"(.\Model\NasaShuttle\shuttle.obj)");
 // 纹理id
 GLuint texMainId;
 
-
+//model
+glm::vec3 cubeScale(1.0f, 1.0f, 1.0f);
 
 // lighting
 glm::vec3 lightPos(1.0f, 1.0f, 1.0f);
+glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+
 
 void MouseMotionCallback(GLFWwindow* window, double x, double y)
 {
@@ -151,27 +157,26 @@ void setupVertics()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 }
 
-/*void installLights(glm::mat4 vMatrix) {
-	//将光源位置转换为视图空间坐标
-	lightPosV = glm::vec3(vMatrix * glm::vec4(currentLightPos, 1.0));
-	lightPos[0] = lightPosV.x;
-	lightPos[1] = lightPosV.y;
-	lightPos[2] = lightPosV.z;
+void updateMenu()
+{
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
 
-	initialShader->use();
+	ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
-	initialShader->setVec4("globalAmbient", glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
-	initialShader->setVec4("light.ambient", glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
-	initialShader->setVec4("light.diffuse", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	initialShader->setVec4("light.specular", glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	initialShader->setVec3("light.position", glm::vec3(lightPos[0], lightPos[1], lightPos[2]));
-	//银材质
-	initialShader->setVec4("material.ambient", glm::vec4(0.2473f, 0.1995f, 0.0745f, 1));
-	initialShader->setVec4("material.diffuse", glm::vec4(0.7516f, 0.6065f, 0.2265f, 1));
-	initialShader->setVec4("material.specular", glm::vec4(0.6283f, 0.5559f, 0.3661f, 1));
-	initialShader->setFloat("material.shininess", 51.2f);
+	ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
 
-}*/
+	ImGui::SliderFloat("float", &cubeLocY, 0.0f, 10.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+	ImGui::ColorEdit3("clear color", (float*)&lightColor); // Edit 3 floats representing a color
+	ImGui::DragFloat3("Scale", (float*)&cubeScale, 0.1f, 0, 5.0f, "%.6f");
+
+	ImGui::End();
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+}
 
 void init()
 {
@@ -189,6 +194,25 @@ void init()
 	cubeLocX = 0.0f; cubeLocY = 0.0f; cubeLocZ = 0.0f;
 	setupVertics();
 	texMainId = Utils::loadTexture(".\\Texture\\spstob_1.jpg");
+}
+
+void InitGui()
+{
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsLight();
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplGlfw_InitForOpenGL(WindowManager::instance()->getWindow(), true);
+	ImGui_ImplOpenGL3_Init();
+
 }
 
 void display(double currentTime)
@@ -214,10 +238,11 @@ void display(double currentTime)
 	vMat = CameraManager::instance()->getCurCamera()->getViewMatrix();
 
 	mMat = glm::translate(glm::mat4(1.0f), glm::vec3(cubeLocX, cubeLocY, cubeLocZ));
+	mMat = glm::scale(mMat, cubeScale);
 	// mMat = glm::rotate(mMat, 0.6f * (float)currentTime, glm::vec3(0.0f, 1.0f, 0.0f));
 	initialShader->setVec3("light.direction", -0.2f, -1.0f, -0.3f);
 	initialShader->setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-	initialShader->setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+	initialShader->setVec3("lightColor", lightColor);
 	initialShader->setVec3("lightPos", lightPos);
 	initialShader->setVec3("viewPos", CameraManager::instance()->getCurCamera()->getPosition());
 	initialShader->setMat4("projection", pMat);
@@ -297,22 +322,28 @@ int main(void) {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
-	WindowManager::instance()->createMainWindow(1920, 1080, "test_1", false);
-	
+	WindowManager::instance()->createMainWindow(1920, 1080, "MyTinyRender", false);
 
 	/* 测试 控制代码*/
 	glfwSetMouseButtonCallback(WindowManager::instance()->getWindow(), MouseKeyCallback);
 	glfwSetKeyCallback(WindowManager::instance()->getWindow(), KeyInputCallback);
 	glfwSetCursorPosCallback(WindowManager::instance()->getWindow(), MouseMotionCallback);
 
-
 	init();
+
+	InitGui();
 
 	while (!glfwWindowShouldClose(WindowManager::instance()->getWindow())) {
 		display(glfwGetTime());
+		updateMenu();
 		glfwSwapBuffers(WindowManager::instance()->getWindow());
 		glfwPollEvents();
 	}
+
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 
 	glfwDestroyWindow(WindowManager::instance()->getWindow());
 	glfwTerminate();
