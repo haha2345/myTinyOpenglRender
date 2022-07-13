@@ -2,10 +2,16 @@
 
 out vec4 FragColor;
 
-in vec2 tc;
-in vec3 Normal;  
-in vec3 FragPos;  
+in vec2 tc;  
+in vec3 varyingNormal;
+in vec3 varyingLightDir;
+in vec3 varyingVertPos;
   
+struct Light{
+    vec3 direction;
+};
+
+uniform Light light;
 uniform vec3 lightPos; 
 uniform vec3 viewPos; 
 uniform vec3 lightColor;
@@ -14,23 +20,46 @@ layout (binding=0) uniform sampler2D s;
 
 void main()
 {
+
+
+
+    // normalize the light, normal, and view vectors:
+	vec3 L = normalize(-light.direction);
+	vec3 N = normalize(varyingNormal);
+	vec3 V = normalize(-varyingVertPos);
+
+    vec3 varyingHalfVector =
+		normalize(normalize(L)
+		+ normalize(-varyingVertPos)).xyz;
+
+    // get the angle between the light and surface normal:
+	float cosTheta = dot(L,N);
+
+    // halfway vector varyingHalfVector was computed in the vertex shader,
+	// and interpolated prior to reaching the fragment shader.
+	// It is copied into variable H here for convenience later.
+	vec3 H = normalize(varyingHalfVector);
+
+    // get angle between the normal and the halfway vector
+	float cosPhi = dot(H,N);
+
     // ambient
     float ambientStrength = 0.1;
     vec3 ambient = ambientStrength * lightColor;
+    //vec3 ambient = ambientStrength * lightColor;
   	
     // diffuse 
-    vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(lightPos - FragPos);
-    float diff = max(dot(norm, lightDir), 0.0);
+    float diff = max(cosTheta, 0.0);
     vec3 diffuse = diff * lightColor;
     
     // specular
     float specularStrength = 0.5;
-    vec3 viewDir = normalize(viewPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+    
+    float spec = pow(max(cosPhi,0.0), 32);
+
+    
     vec3 specular = specularStrength * spec * lightColor;  
         
-    vec3 result = (ambient + diffuse + specular) * texture(s,tc).xyz;
+    vec3 result = (ambient + diffuse + specular) * texture(s,tc).rgb;
     FragColor = vec4(result, 1.0);
 } 

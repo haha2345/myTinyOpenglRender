@@ -191,7 +191,6 @@ void init()
 	texMainId = Utils::loadTexture(".\\Texture\\spstob_1.jpg");
 }
 
-
 void display(double currentTime)
 {
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -216,6 +215,7 @@ void display(double currentTime)
 
 	mMat = glm::translate(glm::mat4(1.0f), glm::vec3(cubeLocX, cubeLocY, cubeLocZ));
 	// mMat = glm::rotate(mMat, 0.6f * (float)currentTime, glm::vec3(0.0f, 1.0f, 0.0f));
+	initialShader->setVec3("light.direction", -0.2f, -1.0f, -0.3f);
 	initialShader->setVec3("objectColor", 1.0f, 0.5f, 0.31f);
 	initialShader->setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 	initialShader->setVec3("lightPos", lightPos);
@@ -269,6 +269,9 @@ void display(double currentTime)
 
 	glDrawArrays(GL_TRIANGLES, 0, myModel.getNumVertices());
 
+
+
+
 	mMat = glm::translate(glm::mat4(1.0f), lightPos);
 	mMat = glm::scale(mMat, glm::vec3(0.2f));
 	mvMat = vMat * mMat;
@@ -284,6 +287,7 @@ void display(double currentTime)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
+
 
 }
 
