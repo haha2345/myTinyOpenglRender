@@ -78,9 +78,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>F:\1_CPP_files\environment\openglEnvironment\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\1_CPP_files\environment\openglEnvironment\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>F:\1_CPP_files\environment\openglEnvironment\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\1_CPP_files\environment\openglEnvironment\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -123,7 +127,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>F:\1_CPP_files\environment\openglEnvironment\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32.lib;soil2-debug.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glew32.lib;soil2-debug.lib;opengl32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -145,7 +149,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>F:\1_CPP_files\environment\openglEnvironment\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glew32.lib;soil2-debug.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glew32.lib;soil2-debug.lib;opengl32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -153,6 +157,7 @@
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ControllerManager.cpp" />
+    <ClCompile Include="demo.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -171,6 +176,8 @@
     <None Include="colorFrag.glsl" />
     <None Include="colorVert.glsl" />
     <None Include="fragShader.glsl" />
+    <None Include="modelFrag.glsl" />
+    <None Include="modelVert.glsl" />
     <None Include="vertShader.glsl" />
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +195,8 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="ImportedModel.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WindowManager.h" />

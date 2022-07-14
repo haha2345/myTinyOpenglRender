@@ -17,6 +17,7 @@
 #include "ControllerManager.h"
 #include "ImportedModel.h"
 #include "Shader.h"
+#include "Model.h"
 using namespace std;
 
 // #define FIXEDUPDATE_TIME 0.01f//In seconds
@@ -37,6 +38,8 @@ float aspect;
 glm::mat4 pMat, vMat, mMat, mvMat, invMat;//透视、视图、模型、模型-视图矩阵
 // 加载模型
 ImportedModel myModel = ImportedModel(R"(.\Model\NasaShuttle\shuttle.obj)");
+
+Model* newModel;
 
 // 纹理id
 GLuint texMainId;
@@ -92,10 +95,12 @@ void setupVertics()
 
 Shader* initialShader;
 Shader* lightCubeShader;
+Shader* modelShader;
 
 
 GLuint lightCubeVAO;
 GLuint lightCubeVBO;
+
 
 void setupVertics()
 {
@@ -131,7 +136,6 @@ void setupVertics()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
 	glBufferData(GL_ARRAY_BUFFER, nvalues.size() * 4, &nvalues[0], GL_STATIC_DRAW);
 
-
 	// 发光立方体
 	float vertices[108] = {
 	-1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, -1.0f, -1.0f,
@@ -148,13 +152,24 @@ void setupVertics()
 	1.0f,  1.0f,  1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f, -1.0f
 	};
 
-
 	glGenVertexArrays(1, &lightCubeVAO);
 	glBindVertexArray(lightCubeVAO);
 
 	glGenBuffers(1, &lightCubeVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, lightCubeVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+}
+
+void generateModel(glm::vec3 pos)
+{
+	modelShader->use();
+	modelShader->setMat4("projection", pMat);
+	modelShader->setMat4("view", vMat);
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, pos); // translate it down so it's at the center of the scene
+	model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+	modelShader->setMat4("model", model);
+	newModel->Draw(*modelShader);
 }
 
 void updateMenu()
@@ -170,6 +185,8 @@ void updateMenu()
 	ImGui::SliderFloat("float", &cubeLocY, 0.0f, 10.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 	ImGui::ColorEdit3("clear color", (float*)&lightColor); // Edit 3 floats representing a color
 	ImGui::DragFloat3("Scale", (float*)&cubeScale, 0.1f, 0, 5.0f, "%.6f");
+	if (ImGui::Button("Add Model"))
+		generateModel(glm::vec3(1.0f,1.0f,1.0f));
 
 	ImGui::End();
 
@@ -188,6 +205,9 @@ void init()
 
 	initialShader = new Shader("vertShader.glsl", "fragShader.glsl");
 	lightCubeShader = new Shader("colorVert.glsl", "colorFrag.glsl");
+	modelShader = new Shader("modelVert.glsl", "modelFrag.glsl");
+
+	newModel = new Model("Model/nanosuit/nanosuit.obj");
 
 	// renderingProgram = Utils::createShaderProgram("vertShader.glsl", "fragShader.glsl");
 	pMat = CameraManager::instance()->getCurCamera()->getProjectionMatrix();
@@ -215,6 +235,8 @@ void InitGui()
 
 }
 
+
+
 void display(double currentTime)
 {
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -222,7 +244,6 @@ void display(double currentTime)
 	glClear(GL_COLOR_BUFFER_BIT);
 	// glUseProgram(renderingProgram);
 
-	initialShader->use();
 
 
 	/*测试 控制操作*/
@@ -239,6 +260,11 @@ void display(double currentTime)
 
 	mMat = glm::translate(glm::mat4(1.0f), glm::vec3(cubeLocX, cubeLocY, cubeLocZ));
 	mMat = glm::scale(mMat, cubeScale);
+	mvMat = vMat * mMat;
+
+	generateModel(glm::vec3(0.1f,0.1f,0.1f));
+
+	initialShader->use();
 	// mMat = glm::rotate(mMat, 0.6f * (float)currentTime, glm::vec3(0.0f, 1.0f, 0.0f));
 	initialShader->setVec3("light.direction", -0.2f, -1.0f, -0.3f);
 	initialShader->setVec3("objectColor", 1.0f, 0.5f, 0.31f);
@@ -249,7 +275,6 @@ void display(double currentTime)
 	initialShader->setMat4("view", vMat);
 	initialShader->setMat4("model", mMat);
 
-	mvMat = vMat * mMat;
 
 	//将透视矩阵和mv矩阵赋值给相应的uniform
 	/*initialShader->setMat4("mv_matrix",mvMat);
@@ -270,6 +295,7 @@ void display(double currentTime)
 	glDepthFunc(GL_LEQUAL);
 	glDrawArrays(GL_TRIANGLES, 0, 36);*/
 
+	glBindVertexArray(vao[0]);
 	//将VBO关联给顶点着色器中相应的顶点属性
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
@@ -304,6 +330,7 @@ void display(double currentTime)
 	lightCubeShader->setMat4("proMatrix", pMat);
 	lightCubeShader->setMat4("mvMatrix", mvMat);
 
+	glBindVertexArray(lightCubeVAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, lightCubeVBO);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -328,7 +355,6 @@ int main(void) {
 	glfwSetMouseButtonCallback(WindowManager::instance()->getWindow(), MouseKeyCallback);
 	glfwSetKeyCallback(WindowManager::instance()->getWindow(), KeyInputCallback);
 	glfwSetCursorPosCallback(WindowManager::instance()->getWindow(), MouseMotionCallback);
-
 	init();
 
 	InitGui();
