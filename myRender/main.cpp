@@ -15,6 +15,7 @@
 #include "WindowManager.h"
 #include "CameraManager.h"
 #include "ControllerManager.h"
+#include "MeshObject.h"
 #include "ImportedModel.h"
 #include "Shader.h"
 #include "Model.h"
@@ -39,7 +40,7 @@ glm::mat4 pMat, vMat, mMat, mvMat, invMat;//透视、视图、模型、模型-视图矩阵
 // 加载模型
 ImportedModel myModel = ImportedModel(R"(.\Model\NasaShuttle\shuttle.obj)");
 
-Model* newModel;
+// Model* newModel;
 
 // 纹理id
 GLuint texMainId;
@@ -50,6 +51,8 @@ glm::vec3 cubeScale(1.0f, 1.0f, 1.0f);
 // lighting
 glm::vec3 lightPos(1.0f, 1.0f, 1.0f);
 glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+
+MeshObject* mo;
 
 
 void MouseMotionCallback(GLFWwindow* window, double x, double y)
@@ -160,7 +163,7 @@ void setupVertics()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 }
 
-void generateModel(glm::vec3 pos)
+/*void generateModel(glm::vec3 pos)
 {
 	modelShader->use();
 	modelShader->setMat4("projection", pMat);
@@ -170,7 +173,7 @@ void generateModel(glm::vec3 pos)
 	model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
 	modelShader->setMat4("model", model);
 	newModel->Draw(*modelShader);
-}
+}*/
 
 void updateMenu()
 {
@@ -184,9 +187,17 @@ void updateMenu()
 
 	ImGui::SliderFloat("float", &cubeLocY, 0.0f, 10.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 	ImGui::ColorEdit3("clear color", (float*)&lightColor); // Edit 3 floats representing a color
-	ImGui::DragFloat3("Scale", (float*)&cubeScale, 0.1f, 0, 5.0f, "%.6f");
-	if (ImGui::Button("Add Model"))
-		generateModel(glm::vec3(1.0f,1.0f,1.0f));
+	float scale[3] = { 0.0f,0.0f,0.0f };
+	auto objScale = mo->getScale();
+	scale[0] = objScale.x;
+	scale[1] = objScale.y;
+	scale[2] = objScale.z;
+
+	ImGui::DragFloat3("Scale", scale, 0.1f, 0, 5.0f, "%.6f");
+
+	mo->setScale(glm::vec3(scale[0],scale[1],scale[2]));
+	// if (ImGui::Button("Add Model"))
+		// generateModel(glm::vec3(1.0f,1.0f,1.0f));
 
 	ImGui::End();
 
@@ -200,6 +211,8 @@ void init()
 	CameraManager::instance()->push();
 	ControllerManager::instance()->push();
 
+
+
 	if (glewInit() != GLEW_OK) { exit(EXIT_FAILURE); }
 	glfwSwapInterval(1);
 
@@ -207,13 +220,20 @@ void init()
 	lightCubeShader = new Shader("colorVert.glsl", "colorFrag.glsl");
 	modelShader = new Shader("modelVert.glsl", "modelFrag.glsl");
 
-	newModel = new Model("Model/nanosuit/nanosuit.obj");
+	// newModel = new Model("Model/nanosuit/nanosuit.obj");
 
 	// renderingProgram = Utils::createShaderProgram("vertShader.glsl", "fragShader.glsl");
 	pMat = CameraManager::instance()->getCurCamera()->getProjectionMatrix();
 	cubeLocX = 0.0f; cubeLocY = 0.0f; cubeLocZ = 0.0f;
 	setupVertics();
 	texMainId = Utils::loadTexture(".\\Texture\\spstob_1.jpg");
+
+	MeshManager::instance();
+	TextureManager::Instance();
+
+	mo = new MeshObject();
+	mo->SetMeshData(MeshManager::instance()->getBuildInBox());
+	mo->SetTexture(TextureManager::Instance()->LoadDefaultD());
 }
 
 void InitGui()
@@ -262,7 +282,8 @@ void display(double currentTime)
 	mMat = glm::scale(mMat, cubeScale);
 	mvMat = vMat * mMat;
 
-	generateModel(glm::vec3(0.1f,0.1f,0.1f));
+	// generateModel(glm::vec3(0.1f,0.1f,0.1f));
+	mo->Render(modelShader);
 
 	initialShader->use();
 	// mMat = glm::rotate(mMat, 0.6f * (float)currentTime, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -339,7 +360,6 @@ void display(double currentTime)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-
 
 }
 

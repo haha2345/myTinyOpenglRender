@@ -21,8 +21,6 @@ layout (binding=0) uniform sampler2D s;
 void main()
 {
 
-
-
     // normalize the light, normal, and view vectors:
 	vec3 L = normalize(-light.direction);
 	vec3 N = normalize(varyingNormal);

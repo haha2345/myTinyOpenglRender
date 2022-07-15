@@ -4,7 +4,7 @@
 // Description:
 // 
 //
-
+#if 0
 #ifndef __MESH_H__
 #define __MESH_H__
 
@@ -152,3 +152,4 @@ private:
 };
 
 #endif //__MESH_H__
+#endif
