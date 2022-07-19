@@ -122,6 +122,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>F:\1_CPP_files\environment\openglEnvironment\include</AdditionalIncludeDirectories>
       <BrowseInformation>true</BrowseInformation>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,6 +143,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>F:\1_CPP_files\environment\openglEnvironment\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -158,6 +160,7 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ControllerManager.cpp" />
     <ClCompile Include="demo.cpp" />
+    <ClCompile Include="FileImportManager.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -190,6 +193,7 @@
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="ControllerManager.h" />
+    <ClInclude Include="FileImportManager.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />

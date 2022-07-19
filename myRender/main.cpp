@@ -17,8 +17,8 @@
 #include "ControllerManager.h"
 #include "MeshObject.h"
 #include "ImportedModel.h"
+#include "FileImportManager.h"
 #include "Shader.h"
-#include "Model.h"
 using namespace std;
 
 // #define FIXEDUPDATE_TIME 0.01f//In seconds
@@ -210,7 +210,7 @@ void init()
 {
 	CameraManager::instance()->push();
 	ControllerManager::instance()->push();
-
+	FileImportManager::instance();
 
 
 	if (glewInit() != GLEW_OK) { exit(EXIT_FAILURE); }
@@ -232,9 +232,11 @@ void init()
 	TextureManager::Instance();
 
 	mo = new MeshObject();
-	mo->SetMeshData(MeshManager::instance()->getBuildInBox());
-	mo->SetTexture(TextureManager::Instance()->LoadDefaultD());
+	mo->setMeshData(MeshManager::instance()->getBuildInBox());
+	mo->setTexture(TextureManager::Instance()->LoadDefaultD());
+	FileImportManager::instance()->loadFile("Model/nanosuit/nanosuit.obj");
 }
+
 
 void InitGui()
 {
@@ -283,7 +285,9 @@ void display(double currentTime)
 	mvMat = vMat * mMat;
 
 	// generateModel(glm::vec3(0.1f,0.1f,0.1f));
-	mo->Render(modelShader);
+	mo->render(modelShader);
+
+	FileImportManager::instance()->show(modelShader);
 
 	initialShader->use();
 	// mMat = glm::rotate(mMat, 0.6f * (float)currentTime, glm::vec3(0.0f, 1.0f, 0.0f));

@@ -10,6 +10,12 @@
 #include <unordered_map>
 #include <GL/glew.h>
 
+struct Texture {
+	unsigned int id;
+	std::string type;
+	std::string path;
+};
+
 class TextureManager
 {
 private:
