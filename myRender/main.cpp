@@ -122,8 +122,8 @@ void init()
 	mo->setMeshData(MeshManager::instance()->getBuildInBox());
 	mo->setTexture(TextureManager::instance()->loadDefaultD());
 	mo->setMeshType(MeshType::buildIn);
-	// FileImportManager::instance()->loadFile("Model/nanosuit/nanosuit.obj");
-	FileImportManager::instance()->loadFile("Model/sword/Sting-Sword-lowpoly.obj");
+	FileImportManager::instance()->loadFile("Model/nanosuit/nanosuit.obj");
+	// FileImportManager::instance()->loadFile("Model/sword/Sting-Sword-lowpoly.obj");
 }
 
 void InitGui()
