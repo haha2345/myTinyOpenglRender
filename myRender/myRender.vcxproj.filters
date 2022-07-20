@@ -66,9 +66,6 @@
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>头文件\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="demo.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -165,12 +162,6 @@
     </ClInclude>
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>头文件\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>头文件</Filter>

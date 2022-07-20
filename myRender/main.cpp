@@ -40,34 +40,6 @@ void KeyInputCallback(GLFWwindow* window, int key, int scanCode, int action, int
 	ControllerManager::instance()->getCurController()->KeyInputCallback(window, key, scanCode, action, mods);
 }
 
-#if 0
-void setupVertics()
-{
-	//36个顶点，12个三角形，组成一个立方体
-	float vertexPositions[108] = {
-	-1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, -1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f, 1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f, 1.0f, -1.0f,  1.0f, 1.0f,  1.0f, -1.0f,
-	1.0f, -1.0f,  1.0f, 1.0f,  1.0f,  1.0f, 1.0f,  1.0f, -1.0f,
-	1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f, 1.0f,  1.0f,  1.0f,
-	-1.0f, -1.0f,  1.0f, -1.0f,  1.0f,  1.0f, 1.0f,  1.0f,  1.0f,
-	-1.0f, -1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f,  1.0f,  1.0f,
-	-1.0f, -1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f,  1.0f,
-	-1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f,  1.0f, -1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f,  1.0f,
-	-1.0f,  1.0f, -1.0f, 1.0f,  1.0f, -1.0f, 1.0f,  1.0f,  1.0f,
-	1.0f,  1.0f,  1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f, -1.0f
-	};
-
-	glGenVertexArrays(1, vao);//创建vao，返回整数型的id存进vao数组中
-	glBindVertexArray(vao[0]);//将vao声明为活跃
-	glGenBuffers(numVBOs, vbo);//创建vbo，返回整数型的id存进vbo数组中
-	//将顶点信息放到缓冲区VBO中
-	glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPositions), vertexPositions, GL_STATIC_DRAW);
-}
-#endif
-
 Shader* initialShader;
 Shader* lightCubeShader;
 Shader* modelShader;
@@ -142,7 +114,6 @@ void InitGui()
 	// Setup Platform/Renderer backends
 	ImGui_ImplGlfw_InitForOpenGL(WindowManager::instance()->getWindow(), true);
 	ImGui_ImplOpenGL3_Init();
-
 }
 
 void display(double currentTime)
@@ -156,7 +127,6 @@ void display(double currentTime)
 	//创建视图矩阵，模型矩阵和视图-模型矩阵
 	CameraManager::instance()->getCurCamera()->updateViewMatrix();
 
-	// generateModel(glm::vec3(0.1f,0.1f,0.1f));
 	mo->render(modelShader);
 
 	FileImportManager::instance()->show(modelShader);

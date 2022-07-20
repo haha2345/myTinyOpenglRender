@@ -159,7 +159,6 @@
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="ControllerManager.cpp" />
-    <ClCompile Include="demo.cpp" />
     <ClCompile Include="FileImportManager.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -204,11 +203,9 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="ImportedModel.h" />
-    <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshData.h" />
     <ClInclude Include="MeshManager.h" />
     <ClInclude Include="MeshObject.h" />
-    <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="TextureManager.h" />
