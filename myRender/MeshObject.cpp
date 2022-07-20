@@ -105,8 +105,7 @@ void MeshObject::renderLoaded(Shader* shader)
 			return;
 
 		meshDatas_[i]->ready4Rendering();
-		// printf("%d",textureId_);
-		// printf("\n");
+		// printf("第%d次循环，纹理个数：%d\n", i,textures_[i].size());
 
 		updateModelMatrix();
 

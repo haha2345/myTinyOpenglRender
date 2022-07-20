@@ -76,9 +76,11 @@ void FileImportManager::loadFile(std::string path)
 
     for(int i=0;i<scene->mNumMeshes;++i)
     {
+        
         meshVector_.emplace_back(std::make_shared<MeshData>());
         auto mesh = meshVector_.back();
 
+        // printf("共读取%d个mesh，目前是第%d\n", scene->mNumMeshes, i);
         aiMesh* aimesh = scene->mMeshes[i];
 
         // std::vector<Vertex> vertices;
@@ -147,8 +149,10 @@ void FileImportManager::loadFile(std::string path)
 
         //////////////读取材质信息////////////////
 
+        
         if(aimesh->mMaterialIndex>=0)
         {
+            textures_.clear();
             aiMaterial* material = scene->mMaterials[aimesh->mMaterialIndex];
 
             std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
@@ -162,9 +166,9 @@ void FileImportManager::loadFile(std::string path)
             // 4. height maps
             std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
             textures_.insert(textures_.end(), heightMaps.begin(), heightMaps.end());
+            loadedTextures_.push_back(textures_);
         }
     }
-    loadedTextures_.push_back(textures_);
 
     loadedModel_->setMeshData(meshVector_);
     loadedModel_->setTexture(loadedTextures_);
