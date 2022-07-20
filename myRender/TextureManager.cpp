@@ -114,39 +114,39 @@ TextureManager::~TextureManager()
 	ins_ = nullptr;
 }
 
-TextureManager* TextureManager::Instance()
+TextureManager* TextureManager::instance()
 {
 	if (ins_ == nullptr)
 		ins_ = new TextureManager();
 	return ins_;
 }
 
-GLuint TextureManager::LoadTexture(char* filePath)
+GLuint TextureManager::loadTexture(char* filePath)
 {
 	return 0;
 }
 
-GLuint TextureManager::LoadDefaultD()
+GLuint TextureManager::loadDefaultD()
 {
 	return defaultTex_[0];
 }
 
-GLuint TextureManager::LoadDefaultN()
+GLuint TextureManager::loadDefaultN()
 {
 	return defaultTex_[1];
 }
 
-GLuint TextureManager::LoadDefaultS()
+GLuint TextureManager::loadDefaultS()
 {
 	return defaultTex_[2];
 }
 
-GLuint* TextureManager::LoadDefaultTexs()
+GLuint* TextureManager::loadDefaultTexs()
 {
 	return defaultTex_;
 }
 
-GLuint TextureManager::GetNullTex()
+GLuint TextureManager::getNullTex()
 {
 	return nullTex_;
 }

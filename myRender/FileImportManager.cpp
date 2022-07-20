@@ -173,7 +173,7 @@ void FileImportManager::loadFile(std::string path)
             if(textures_.empty())
             {
                 Texture tx;
-                tx.id = TextureManager::Instance()->LoadDefaultD();
+                tx.id = TextureManager::instance()->loadDefaultD();
                 tx.type = "texture_diffuse";
                 tx.path = "";
                 textures_.push_back(tx);

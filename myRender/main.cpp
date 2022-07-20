@@ -116,11 +116,11 @@ void init()
 	modelShader = new Shader("modelVert.glsl", "modelFrag.glsl");
 
 	MeshManager::instance();
-	TextureManager::Instance();
+	TextureManager::instance();
 
 	mo = new MeshObject();
 	mo->setMeshData(MeshManager::instance()->getBuildInBox());
-	mo->setTexture(TextureManager::Instance()->LoadDefaultD());
+	mo->setTexture(TextureManager::instance()->loadDefaultD());
 	mo->setMeshType(MeshType::buildIn);
 	// FileImportManager::instance()->loadFile("Model/nanosuit/nanosuit.obj");
 	FileImportManager::instance()->loadFile("Model/sword/Sting-Sword-lowpoly.obj");

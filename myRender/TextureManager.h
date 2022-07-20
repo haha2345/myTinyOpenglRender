@@ -28,13 +28,13 @@ private:
 
 public:
 	~TextureManager();
-	static TextureManager* Instance();
-	GLuint LoadTexture(char* filePath);
-	GLuint LoadDefaultD();
-	GLuint LoadDefaultN();
-	GLuint LoadDefaultS();
-	GLuint* LoadDefaultTexs();
-	GLuint GetNullTex();
+	static TextureManager* instance();
+	GLuint loadTexture(char* filePath);
+	GLuint loadDefaultD();
+	GLuint loadDefaultN();
+	GLuint loadDefaultS();
+	GLuint* loadDefaultTexs();
+	GLuint getNullTex();
 };
 
 #endif //__TEXTUREMANAGER_H__
