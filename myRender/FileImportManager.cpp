@@ -13,6 +13,8 @@ unsigned int TextureFromFile(const char* path, const std::string& directory)
 {
 	std::string filename = std::string(path);
     filename = directory + '/' + filename;
+    printf(filename.c_str());
+    printf("\n");
 
     unsigned int textureID;
     glGenTextures(1, &textureID);
@@ -72,6 +74,7 @@ void FileImportManager::loadFile(std::string path)
 
     path_ = directory;
 
+
     std::vector<Vertex> vertices;
 
     for(int i=0;i<scene->mNumMeshes;++i)
@@ -80,7 +83,7 @@ void FileImportManager::loadFile(std::string path)
         meshVector_.emplace_back(std::make_shared<MeshData>());
         auto mesh = meshVector_.back();
 
-        // printf("共读取%d个mesh，目前是第%d\n", scene->mNumMeshes, i);
+        printf("共读取%d个mesh，目前是第%d\n", scene->mNumMeshes, i);
         aiMesh* aimesh = scene->mMeshes[i];
 
         // std::vector<Vertex> vertices;
@@ -166,12 +169,22 @@ void FileImportManager::loadFile(std::string path)
             // 4. height maps
             std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
             textures_.insert(textures_.end(), heightMaps.begin(), heightMaps.end());
-            loadedTextures_.push_back(textures_);
+            printf("第%d个mesh加载%d个材质\n", i, textures_.size());
+            if(textures_.empty())
+            {
+                Texture tx;
+                tx.id = TextureManager::Instance()->LoadDefaultD();
+                tx.type = "texture_diffuse";
+                tx.path = "";
+                textures_.push_back(tx);
+            }
+        	loadedTextures_.push_back(textures_);
         }
     }
 
     loadedModel_->setMeshData(meshVector_);
     loadedModel_->setTexture(loadedTextures_);
+    loadedModel_->setMeshType(MeshType::loaded);
 }
 
 std::vector<Texture> FileImportManager::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
@@ -181,6 +194,9 @@ std::vector<Texture> FileImportManager::loadMaterialTextures(aiMaterial* mat, ai
     {
         aiString str;
         mat->GetTexture(type, i, &str);
+        printf(str.C_Str());
+        printf("\n");
+
         // check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
         bool skip = false;
         for (unsigned int j = 0; j < textures_.size(); j++)
@@ -219,10 +235,6 @@ FileImportManager* FileImportManager::instance()
 
 std::shared_ptr<MeshData> FileImportManager::readMeshData(std::string path)
 {
-    if (loadedData.find(path) == loadedData.end())
-    {
-        loadFile(path);
-    }
-    auto data = loadedData[path];
+	
     return nullptr;
 }

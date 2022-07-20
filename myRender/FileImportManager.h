@@ -35,9 +35,11 @@ private:
 	std::string path_;
 
 	Assimp::Importer importer_;
-	std::unordered_map<std::string, std::shared_ptr<FileData>> loadedData;
-	std::vector<std::vector<Texture>> loadedTextures_;
-	std::vector<std::shared_ptr<MeshData>> meshVector_;
+
+	std::unordered_map<std::string, std::shared_ptr<MeshObject>> models_; //保存的模型
+
+	std::vector<std::vector<Texture>> loadedTextures_; //传递给mesObject
+	std::vector<std::shared_ptr<MeshData>> meshVector_; //传递给meshObject
 
 	std::shared_ptr<MeshObject> loadedModel_;
 
@@ -53,7 +55,7 @@ public:
 
 	void show(Shader* shader)
 	{
-		loadedModel_->renderLoaded(shader);
+		loadedModel_->render(shader);
 	}
 };
 

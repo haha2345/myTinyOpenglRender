@@ -19,6 +19,12 @@
 
 using uint = unsigned int;
 
+enum class MeshType
+{
+	buildIn,
+	loaded,
+};
+
 class MeshObject : public Object
 {
 private:
@@ -27,6 +33,8 @@ private:
 
 	std::vector<std::vector<Texture>> textures_;
 	std::vector<std::shared_ptr<MeshData>> meshDatas_;
+
+	MeshType meshType_;
 
 public:
 	MeshObject();
@@ -38,11 +46,15 @@ public:
 	void setTexture(std::vector<std::vector<Texture>> textures);
 	void setMeshData(std::vector<std::shared_ptr<MeshData>> meshes);
 
+	void setMeshType(MeshType type);
+
 	uint getTexture();
 	std::shared_ptr<MeshData> getMeshData();
 
-	void render(Shader* shader, bool useTex = true);
-	void renderLoaded(Shader* shader);
+	void renderBuildInModel(Shader* shader, bool useTex = true);
+	void renderLoadedModel(Shader* shader);
+
+	void render(Shader* shader);
 };
 
 #endif //__MESHOBJECT_H__

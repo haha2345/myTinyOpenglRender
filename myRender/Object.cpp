@@ -10,7 +10,7 @@
 Object::Object()
 {
 	name_ = "Object";
-	pos_ = glm::vec3(0.0f,0.0f,0.0f);
+	pos_ = glm::vec3(0.0f,1.0f,0.0f);
 	scale_ = glm::vec3(1.0f);
 	rotate_ = glm::vec3(1.0f, 1.0f, 1.0f);
 	objType_ = ObjectType::oNull;

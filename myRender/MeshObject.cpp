@@ -39,6 +39,11 @@ void MeshObject::setMeshData(std::vector<std::shared_ptr<MeshData>> meshes)
 	meshDatas_ = meshes;
 }
 
+void MeshObject::setMeshType(MeshType type)
+{
+	meshType_ = type;
+}
+
 uint MeshObject::getTexture()
 {
 	return textureId_;
@@ -49,7 +54,7 @@ std::shared_ptr<MeshData> MeshObject::getMeshData()
 	return meshData_;
 }
 
-void MeshObject::render(Shader* shader, bool useTex)
+void MeshObject::renderBuildInModel(Shader* shader, bool useTex)
 {
 
 	if (meshData_ == nullptr)
@@ -97,7 +102,7 @@ void MeshObject::render(Shader* shader, bool useTex)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, NULL);
 }
 
-void MeshObject::renderLoaded(Shader* shader)
+void MeshObject::renderLoadedModel(Shader* shader)
 {
 	for(int i=0;i<meshDatas_.size();++i)
 	{
@@ -154,5 +159,17 @@ void MeshObject::renderLoaded(Shader* shader)
 
 		// always good practice to set everything back to defaults once configured.
 		glActiveTexture(GL_TEXTURE0);
+	}
+}
+
+void MeshObject::render(Shader* shader)
+{
+	if (meshType_==MeshType::buildIn)
+	{
+		renderBuildInModel(shader);
+	}
+	else if (meshType_ == MeshType::loaded)
+	{
+		renderLoadedModel(shader);
 	}
 }
