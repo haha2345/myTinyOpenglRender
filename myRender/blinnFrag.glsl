@@ -40,7 +40,9 @@ void pointLight()
     vec3 ambient = light.ambient * texture(texture_diffuse1, TexCoords).rgb;
   	
     // diffuse 
-    vec3 norm = normalize(Normal);
+    //vec3 norm = normalize(Normal);
+    vec3 norm=texture(texture_normal1,TexCoords).rgb;
+    norm=normalize(norm*2.0-1.0);
 
     vec3 lightDir = normalize(light.position - FragPos);
     float diff = max(dot(norm, lightDir), 0.0);
