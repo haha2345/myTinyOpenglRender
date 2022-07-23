@@ -19,6 +19,7 @@
 #include "ImportedModel.h"
 #include "FileImportManager.h"
 #include "Shader.h"
+#include "Light.h"
 using namespace std;
 
 // #define FIXEDUPDATE_TIME 0.01f//In seconds
@@ -44,6 +45,10 @@ Shader* initialShader;
 Shader* lightCubeShader;
 Shader* modelShader;
 
+Light* light;
+
+glm::vec3 pos(0,0,0);
+
 void updateMenu()
 {
 	ImGui_ImplOpenGL3_NewFrame();
@@ -54,8 +59,6 @@ void updateMenu()
 
 	ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
 
-
-
 	float scale[3] = { 0.0f,0.0f,0.0f };
 	auto objScale = mo->getScale();
 	scale[0] = objScale.x;
@@ -63,8 +66,18 @@ void updateMenu()
 	scale[2] = objScale.z;
 
 	ImGui::DragFloat3("Scale", scale, 0.1f, 0, 5.0f, "%.6f");
+	mo->setScale(glm::vec3(scale[0], scale[1], scale[2]));
 
-	mo->setScale(glm::vec3(scale[0],scale[1],scale[2]));
+	float position[3] = { 0.0f,0.0f,0.0f };
+	auto objPos = mo->getPosition();
+	position[0] = objPos.x;
+	position[1] = objPos.y;
+	position[2] = objPos.z;
+	ImGui::DragFloat3("position", position, 0.1, -5.0f, 5.0f, "%.6f");
+	mo->setPosition(glm::vec3(position[0], position[1], position[2]));
+
+
+
 	// if (ImGui::Button("Add Model"))
 		// generateModel(glm::vec3(1.0f,1.0f,1.0f));
 
@@ -76,6 +89,7 @@ void updateMenu()
 
 void init()
 {
+	
 	CameraManager::instance()->push();
 	ControllerManager::instance()->push();
 	FileImportManager::instance();
@@ -83,17 +97,21 @@ void init()
 	if (glewInit() != GLEW_OK) { exit(EXIT_FAILURE); }
 	glfwSwapInterval(1);
 
-	initialShader = new Shader("vertShader.glsl", "fragShader.glsl");
+	initialShader = new Shader("blinnVert.glsl", "blinnFrag.glsl");
 	lightCubeShader = new Shader("colorVert.glsl", "colorFrag.glsl");
 	modelShader = new Shader("modelVert.glsl", "modelFrag.glsl");
 
 	MeshManager::instance();
 	TextureManager::instance();
 
+	light = new Light(LightType::Point, 100.0f);
+
 	mo = new MeshObject();
 	mo->setMeshData(MeshManager::instance()->getBuildInBox());
 	mo->setTexture(TextureManager::instance()->loadDefaultD());
 	mo->setMeshType(MeshType::buildIn);
+	mo->setPosition(glm::vec3(1.0, 1.0, 1.0));
+	mo->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
 	FileImportManager::instance()->loadFile("Model/nanosuit/nanosuit.obj");
 	// FileImportManager::instance()->loadFile("Model/sword/Sting-Sword-lowpoly.obj");
 }
@@ -127,9 +145,23 @@ void display(double currentTime)
 	//创建视图矩阵，模型矩阵和视图-模型矩阵
 	CameraManager::instance()->getCurCamera()->updateViewMatrix();
 
+	light->setPosition(mo->getPosition());
+	initialShader->use();
+	initialShader->setVec3("light.position",light->getPosition());
+	initialShader->setVec3("light.direction", -0.2f, -1.0f, -0.3f);
+
+	initialShader->setVec3("light.ambient", 0.5f, 0.5f, 0.5f);
+	initialShader->setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+	initialShader->setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+	initialShader->setFloat("light.constant", 1.0f);
+	initialShader->setFloat("light.linear", 0.09f);
+	initialShader->setFloat("light.quadratic", 0.032f);
+	initialShader->setFloat("material.shininess", 10.0f);
+
+
 	mo->render(modelShader);
 
-	FileImportManager::instance()->show(modelShader);
+	FileImportManager::instance()->show(initialShader);
 
 	//调整OpenGL设置，绘制模型
 	glEnable(GL_DEPTH_TEST);

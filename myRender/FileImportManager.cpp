@@ -144,7 +144,6 @@ void FileImportManager::loadFile(std::string path)
         for (unsigned int i = 0; i < aimesh->mNumFaces; i++)
         {
             aiFace face = aimesh->mFaces[i];
-            // retrieve all indices of the face and store them in the indices vector
             for (unsigned int j = 0; j < face.mNumIndices; j++)
                 indices.push_back(face.mIndices[j]);
         }
@@ -152,7 +151,6 @@ void FileImportManager::loadFile(std::string path)
 
         //////////////读取材质信息////////////////
 
-        
         if(aimesh->mMaterialIndex>=0)
         {
             textures_.clear();
@@ -170,6 +168,7 @@ void FileImportManager::loadFile(std::string path)
             std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
             textures_.insert(textures_.end(), heightMaps.begin(), heightMaps.end());
             printf("第%d个mesh加载%d个材质\n", i, textures_.size());
+            //如果没有读取到材质则使用默认材质
             if(textures_.empty())
             {
                 Texture tx;
@@ -185,6 +184,9 @@ void FileImportManager::loadFile(std::string path)
     loadedModel_->setMeshData(meshVector_);
     loadedModel_->setTexture(loadedTextures_);
     loadedModel_->setMeshType(MeshType::loaded);
+    loadedModel_->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+    //保存模型
+    models_[path] = loadedModel_;
 }
 
 std::vector<Texture> FileImportManager::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)

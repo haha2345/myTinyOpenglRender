@@ -30,11 +30,11 @@ public:
 	~TextureManager();
 	static TextureManager* instance();
 	GLuint loadTexture(char* filePath);
-	GLuint loadDefaultD();
-	GLuint loadDefaultN();
-	GLuint loadDefaultS();
+	GLuint loadDefaultD() const;
+	GLuint loadDefaultN() const;
+	GLuint loadDefaultS() const;
 	GLuint* loadDefaultTexs();
-	GLuint getNullTex();
+	GLuint getNullTex() const;
 };
 
 #endif //__TEXTUREMANAGER_H__

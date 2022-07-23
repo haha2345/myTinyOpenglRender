@@ -126,27 +126,27 @@ GLuint TextureManager::loadTexture(char* filePath)
 	return 0;
 }
 
-GLuint TextureManager::loadDefaultD()
+GLuint TextureManager::loadDefaultD() const
 {
 	return defaultTex_[0];
 }
 
-GLuint TextureManager::loadDefaultN()
+GLuint TextureManager::loadDefaultN() const
 {
 	return defaultTex_[1];
 }
 
-GLuint TextureManager::loadDefaultS()
+GLuint TextureManager::loadDefaultS() const
 {
 	return defaultTex_[2];
 }
 
-GLuint* TextureManager::loadDefaultTexs()
+GLuint* TextureManager::loadDefaultTexs() 
 {
 	return defaultTex_;
 }
 
-GLuint TextureManager::getNullTex()
+GLuint TextureManager::getNullTex() const
 {
 	return nullTex_;
 }

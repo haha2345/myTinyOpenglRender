@@ -84,6 +84,9 @@
     <ClCompile Include="FileImportManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>头文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="fragShader.glsl">
@@ -179,6 +182,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="FileImportManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
