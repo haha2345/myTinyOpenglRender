@@ -34,6 +34,8 @@ public:
 	void setColor(glm::vec3 color);
 	void setLightType(LightType type);
 	void setIntensity(float intensity);
+
+	void render(Shader* shader) override;
 };
 
 #endif //__LIGHT_H__

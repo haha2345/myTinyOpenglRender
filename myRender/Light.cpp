@@ -48,3 +48,7 @@ void Light::setIntensity(float intensity)
 {
 	intensity_ = intensity;
 }
+
+void Light::render(Shader* shader)
+{
+}

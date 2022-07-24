@@ -9,7 +9,6 @@
 
 MeshObject::MeshObject()
 {
-	Object();
 	objType_ = ObjectType::oMesh;
 	textureId_ = 0;
 	meshData_ = nullptr;

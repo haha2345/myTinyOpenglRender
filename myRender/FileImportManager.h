@@ -19,6 +19,7 @@
 #include "TextureManager.h"
 #include "MeshManager.h"
 #include "MeshObject.h"
+#include "SceneManager.h"
 
 struct FileData
 {
@@ -41,7 +42,7 @@ private:
 	std::vector<std::vector<Texture>> loadedTextures_; //传递给mesObject
 	std::vector<std::shared_ptr<MeshData>> meshVector_; //传递给meshObject
 
-	std::shared_ptr<MeshObject> loadedModel_;
+	// std::shared_ptr<MeshObject> loadedModel_;
 
 	std::vector<Texture> textures_;
 
@@ -53,10 +54,10 @@ public:
 	std::shared_ptr<MeshData> readMeshData(std::string path);
 	void loadFile(std::string path);
 
-	void show(Shader* shader)
-	{
-		loadedModel_->render(shader);
-	}
+	// void show(Shader* shader)
+	// {
+	// 	loadedModel_->render(shader);
+	// }
 };
 
 #endif //__FILEIMPORTMANAGER_H__

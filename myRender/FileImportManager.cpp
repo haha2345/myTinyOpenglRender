@@ -55,11 +55,22 @@ FileImportManager* FileImportManager::ins_ = nullptr;
 
 FileImportManager::FileImportManager()
 {
-    loadedModel_ = std::make_shared<MeshObject>();
 }
 
 void FileImportManager::loadFile(std::string path)
 {
+    //防止模型重复加载
+    if(models_.find(path)!=models_.end())
+    {
+	    std::shared_ptr<MeshObject> loadedModel_;
+        MeshObject mo = *models_[path];
+        loadedModel_ = std::make_shared<MeshObject>(mo);
+        loadedModel_->setPosition(glm::vec3(0, 1, 1));
+        printf("重复加载：%p\n", loadedModel_);
+	    SceneManager::instance()->addObject(loadedModel_);
+        return;
+    }
+
     const aiScene* scene = importer_.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
     // check for errors
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
@@ -181,12 +192,16 @@ void FileImportManager::loadFile(std::string path)
         }
     }
 
-    loadedModel_->setMeshData(meshVector_);
-    loadedModel_->setTexture(loadedTextures_);
-    loadedModel_->setMeshType(MeshType::loaded);
-    loadedModel_->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+    std::shared_ptr<MeshObject> tempObject = std::make_shared<MeshObject>();
+    tempObject->setMeshData(meshVector_);
+    tempObject->setTexture(loadedTextures_);
+    tempObject->setMeshType(MeshType::loaded);
+    tempObject->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
     //保存模型
-    models_[path] = loadedModel_;
+    printf("第一次加载 %p\n", tempObject);
+
+    models_[path] = tempObject;
+    SceneManager::instance()->addObject(tempObject);
 }
 
 std::vector<Texture> FileImportManager::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
@@ -201,11 +216,11 @@ std::vector<Texture> FileImportManager::loadMaterialTextures(aiMaterial* mat, ai
 
         // check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
         bool skip = false;
-        for (unsigned int j = 0; j < textures_.size(); j++)
+        for (auto& texture : textures_)
         {
-            if (std::strcmp(textures_[j].path.data(), str.C_Str()) == 0)
+            if (std::strcmp(texture.path.data(), str.C_Str()) == 0)
             {
-                textures.push_back(textures_[j]);
+                textures.push_back(texture);
                 skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
                 break;
             }

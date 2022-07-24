@@ -54,7 +54,7 @@ public:
 	void renderBuildInModel(Shader* shader, bool useTex = true);
 	void renderLoadedModel(Shader* shader);
 
-	void render(Shader* shader);
+	void render(Shader* shader) override;
 };
 
 #endif //__MESHOBJECT_H__

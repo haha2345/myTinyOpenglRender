@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 #include <string>
+#include "Shader.h"
 
 enum class ObjectType
 {
@@ -38,6 +39,7 @@ public:
 	void setScale(glm::vec3 scale);
 	void setRotation(glm::vec3 rotate);
 	void updateModelMatrix();
+	virtual void render(Shader* shader)=0;
 
 	std::string getName() const;
 	glm::vec3 getPosition() const;

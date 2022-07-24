@@ -85,7 +85,10 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
-      <Filter>头文件</Filter>
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +188,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

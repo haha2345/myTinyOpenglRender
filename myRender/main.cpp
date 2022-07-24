@@ -20,6 +20,7 @@
 #include "FileImportManager.h"
 #include "Shader.h"
 #include "Light.h"
+#include "SceneManager.h"
 using namespace std;
 
 // #define FIXEDUPDATE_TIME 0.01f//In seconds
@@ -76,7 +77,10 @@ void updateMenu()
 	ImGui::DragFloat3("position", position, 0.1, -5.0f, 5.0f, "%.6f");
 	mo->setPosition(glm::vec3(position[0], position[1], position[2]));
 
-
+	if (ImGui::Button("Use", ImVec2(60, 20)))
+	{
+		FileImportManager::instance()->loadFile("Model/nanosuit/nanosuit.obj");
+	}
 
 	// if (ImGui::Button("Add Model"))
 		// generateModel(glm::vec3(1.0f,1.0f,1.0f));
@@ -112,8 +116,9 @@ void init()
 	mo->setMeshType(MeshType::buildIn);
 	mo->setPosition(glm::vec3(1.0, 1.0, 1.0));
 	mo->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
-	FileImportManager::instance()->loadFile("Model/nanosuit/nanosuit.obj");
-	// FileImportManager::instance()->loadFile("Model/sword/Sting-Sword-lowpoly.obj");
+
+	SceneManager::instance();
+
 }
 
 void InitGui()
@@ -161,7 +166,9 @@ void display(double currentTime)
 
 	mo->render(modelShader);
 
-	FileImportManager::instance()->show(initialShader);
+	// FileImportManager::instance()->show(initialShader);
+
+	SceneManager::instance()->draw(initialShader);
 
 	//调整OpenGL设置，绘制模型
 	glEnable(GL_DEPTH_TEST);
