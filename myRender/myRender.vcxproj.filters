@@ -93,6 +93,9 @@
     <ClCompile Include="MenuManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TerrainManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="fragShader.glsl">
@@ -197,6 +200,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MenuManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

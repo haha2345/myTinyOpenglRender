@@ -176,6 +176,7 @@
     <ClCompile Include="MeshObject.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="TerrainManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WindowManager.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="TerrainManager.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WindowManager.h" />
