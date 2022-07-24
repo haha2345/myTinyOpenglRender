@@ -20,6 +20,8 @@ private:
 	SceneManager();
 	static SceneManager* ins_;
 
+	std::string sceneName_;
+
 	std::list<std::shared_ptr<Object>> objects_;
 public:
 	~SceneManager();
@@ -33,8 +35,12 @@ public:
 
 	void addObject(std::shared_ptr<Object> obj);
 
-	
+	void setSceneName(std::string);
+	std::string getSceneName() const;
+
+	std::list<std::shared_ptr<Object>> getObjects() const;
 };
+
 
 
 #endif //__SCENEMANAGER_H__

@@ -18,7 +18,7 @@ Object::Object()
 
 Object::~Object() = default;
 
-void Object::setName(std::string& name)
+void Object::setName(std::string name)
 {
 	name_ = name;
 }

@@ -34,7 +34,7 @@ public:
 	Object();
 	~Object();
 
-	void setName(std::string& name);
+	void setName(std::string name);
 	void setPosition(glm::vec3 pos);
 	void setScale(glm::vec3 scale);
 	void setRotation(glm::vec3 rotate);

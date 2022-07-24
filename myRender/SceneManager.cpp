@@ -10,6 +10,7 @@
 SceneManager* SceneManager::ins_ = nullptr;
 SceneManager::SceneManager()
 {
+	sceneName_ = "new scene";
 	init();
 }
 
@@ -55,3 +56,17 @@ void SceneManager::addObject(std::shared_ptr<Object> obj)
 }
 
 
+inline void SceneManager::setSceneName(std::string name)
+{
+	sceneName_ = name;
+}
+
+inline std::string SceneManager::getSceneName() const
+{
+	return  sceneName_ ;
+}
+
+std::list<std::shared_ptr<Object>> SceneManager::getObjects() const
+{
+	return objects_;
+}

@@ -21,6 +21,7 @@
 #include "Shader.h"
 #include "Light.h"
 #include "SceneManager.h"
+#include "MenuManager.h"
 using namespace std;
 
 // #define FIXEDUPDATE_TIME 0.01f//In seconds
@@ -118,7 +119,7 @@ void init()
 	mo->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
 
 	SceneManager::instance();
-
+	MenuManager::instance()->initMenu();
 }
 
 void InitGui()
@@ -173,6 +174,8 @@ void display(double currentTime)
 	//调整OpenGL设置，绘制模型
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
+	MenuManager::instance()->updateMenu();
+	MenuManager::instance()->renderMenu();
 }
 
 
@@ -189,11 +192,11 @@ int main(void) {
 
 	init();
 
-	InitGui();
+	// InitGui();
 
 	while (!glfwWindowShouldClose(WindowManager::instance()->getWindow())) {
 		display(glfwGetTime());
-		updateMenu();
+		// updateMenu();
 		glfwSwapBuffers(WindowManager::instance()->getWindow());
 		glfwPollEvents();
 	}
