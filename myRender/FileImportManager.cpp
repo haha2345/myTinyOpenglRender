@@ -65,7 +65,6 @@ void FileImportManager::loadFile(std::string path)
 	    std::shared_ptr<MeshObject> loadedModel_;
         MeshObject mo = *models_[path];
         loadedModel_ = std::make_shared<MeshObject>(mo);
-        loadedModel_->setPosition(glm::vec3(0, 1, 1));
         printf("重复加载：%p\n", loadedModel_);
 	    SceneManager::instance()->addObject(loadedModel_);
         return;

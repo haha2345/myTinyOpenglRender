@@ -16,7 +16,8 @@ void MenuManager::drawMainMenuBar()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
-		ImGui::Text(("<" + SceneManager::instance()->getSceneName() + ">").c_str());
+		// std::string name = SceneManager::instance()->getSceneName();
+		// ImGui::Text(name.c_str());
 		if (ImGui::BeginMenu("Scene"))
 		{
 			drawMainMenuBar_Scene();
@@ -36,7 +37,7 @@ void MenuManager::drawMainMenuBar_Scene()
 {
 	if (ImGui::MenuItem("Import Model"))
 	{
-
+		importModel("Model/nanosuit/nanosuit.obj");
 	}
 	if (ImGui::MenuItem("Add a Cube"))
 	{
@@ -86,7 +87,7 @@ void MenuManager::drawSceneEditorDialog()
 		//if (ImGui::Selectable("Main Light##Main", selectedObj == LightManager::Instance()->GetLight(WeatherSystem::Instance()->GetSunLightID())))
 			//selectedObj = LightManager::Instance()->GetLight(WeatherSystem::Instance()->GetSunLightID());
 
-		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+		// ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 
 		for (auto& object : SceneManager::instance()->getObjects())
 		{
@@ -198,7 +199,7 @@ void MenuManager::initMenu()
 
 
 	ImGuiIO& io = ImGui::GetIO();
-	// io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiWindowFlags_MenuBar;
 
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.FrameBorderSize = 2.0f;
@@ -226,7 +227,7 @@ void MenuManager::updateMenu()
 
 	// ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 
-	// drawMainMenuBar();
+	drawMainMenuBar();
 
 	if (showSceneEditorDialog_)
 		drawSceneEditorDialog();
