@@ -16,7 +16,6 @@
 #include "CameraManager.h"
 #include "ControllerManager.h"
 #include "MeshObject.h"
-#include "ImportedModel.h"
 #include "FileImportManager.h"
 #include "Shader.h"
 #include "Light.h"
@@ -61,7 +60,6 @@ void init()
 
 	if (glewInit() != GLEW_OK) { exit(EXIT_FAILURE); }
 	glfwSwapInterval(1);
-	MenuManager::instance()->initMenu();
 
 	initialShader = new Shader("blinnVert.glsl", "blinnFrag.glsl");
 	lightCubeShader = new Shader("colorVert.glsl", "colorFrag.glsl");
@@ -81,6 +79,7 @@ void init()
 
 	SceneManager::instance();
 	TerrainManager::instance();
+	MenuManager::instance()->initMenu();
 
 }
 
@@ -89,14 +88,13 @@ void init()
 void display(double currentTime)
 {
 	glClear(GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0, 0.0, 0.0, 1.0);
+	glClearColor(0.1, 0.1, 0.1, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	ControllerManager::instance()->getCurController()->update();
 
 	//创建视图矩阵，模型矩阵和视图-模型矩阵
 	CameraManager::instance()->getCurCamera()->updateViewMatrix();
-	MenuManager::instance()->updateMenu();
 
 	light->setPosition(glm::vec3(1,1,1));
 	initialShader->use();
@@ -112,10 +110,7 @@ void display(double currentTime)
 	initialShader->setFloat("light.quadratic", 0.032f);
 	initialShader->setFloat("material.shininess", 32.0f);
 
-
 	mo->render(modelShader);
-
-	// FileImportManager::instance()->show(initialShader);
 
 	SceneManager::instance()->draw(initialShader);
 	TerrainManager::instance()->getTerrainObject()->render(initialShader);
@@ -127,6 +122,7 @@ void display(double currentTime)
 	glFrontFace(GL_CCW);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
+	MenuManager::instance()->updateMenu();
 
 	MenuManager::instance()->renderMenu();
 }

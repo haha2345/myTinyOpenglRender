@@ -162,6 +162,94 @@ void MenuManager::drawObjEditorDialog()
 			ImGui::End();
 			return;
 		}
+
+		if(selectedObj_->getObjectType()==ObjectType::oMesh)
+		{
+			auto meshObject = dynamic_cast<MeshObject*>(selectedObj_.get());
+			ImGui::Text("Material");
+			{
+				//Name
+				if (ImGui::Button("Change"))
+				{
+				}
+
+				if (meshObject==nullptr)
+				{
+					ImGui::SameLine();
+					ImGui::Text("Missing Material");
+				}
+				else
+				{
+					ImGui::SameLine();
+					char matNameChar[128];
+					strcpy_s(matNameChar, "material");
+					ImGui::InputText("##MatName", matNameChar, IM_ARRAYSIZE(matNameChar));
+
+					//Color
+					glm::vec4 matColor(1.0f, 1.0f, 1.0f, 1.0f);
+					float matColorArray[4] = { matColor.x, matColor.y, matColor.z, matColor.w };
+					ImGui::ColorEdit4("Color", matColorArray);
+					//
+					//Diffuse
+					ImTextureID texID=(ImTextureID)TextureManager::instance()->getNullTex();
+					
+					
+					ImGui::PushID(1);
+					ImGui::ImageButton(texID, ImVec2(32.0f, 32.0f));
+						// InitFileBrowser("Resources\\Textures", ".tga", &MenuManager::ImportDiffuse);
+					ImGui::PopID();
+					//
+					ImGui::SameLine();
+					ImGui::BeginGroup();
+					ImGui::Text("Albedo");
+					if (ImGui::Button("Clear##D"))
+						// mat->RemoveDiffuse();
+					ImGui::SameLine();
+					ImGui::Text("diffuse");
+					ImGui::EndGroup();
+					
+					ImGui::Spacing();
+					
+					texID= (ImTextureID)TextureManager::instance()->loadDefaultN();
+					
+					ImGui::PushID(2);
+					ImGui::ImageButton(texID, ImVec2(32.0f, 32.0f));
+						// InitFileBrowser("Resources\\Textures", ".tga", &MenuManager::ImportNormal);
+					ImGui::PopID();
+					
+					ImGui::SameLine();
+					ImGui::BeginGroup();
+					ImGui::Text("Normal");
+					if (ImGui::Button("Clear##N"))
+						// mat->RemoveNormal();
+					ImGui::SameLine();
+					ImGui::Text("normal");
+					ImGui::EndGroup();
+					
+					ImGui::Spacing();
+					
+					//Specular
+					texID = (ImTextureID)TextureManager::instance()->loadDefaultS();
+					
+					
+					ImGui::PushID(3);
+					ImGui::ImageButton(texID, ImVec2(32.0f, 32.0f));
+						// InitFileBrowser("Resources\\Textures", ".tga", &MenuManager::ImportSpecular);
+					ImGui::PopID();
+					
+					ImGui::SameLine();
+					ImGui::BeginGroup();
+					ImGui::Text("Specular(r:Roughness g:Metallic)");
+					ImGui::Button("Clear##S");
+						// mat->RemoveSpecular();
+					ImGui::SameLine();
+					// ImGui::Text(mat->GetSpecularPath().c_str());
+					ImGui::EndGroup();
+					
+					ImGui::Spacing();
+				}
+			}
+		}
 	}
 	ImGui::End();
 

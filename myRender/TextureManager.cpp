@@ -41,9 +41,9 @@ TextureManager::TextureManager()
 	{
 		for (j = 0; j < 8; j++)
 		{
-			S[i][j][0] = (GLubyte)255;//Roughness
-			S[i][j][1] = (GLubyte)255;//Metallic
-			S[i][j][2] = (GLubyte)0;
+			S[i][j][0] = (GLubyte)254;//Roughness
+			S[i][j][1] = (GLubyte)254;//Metallic
+			S[i][j][2] = (GLubyte)254;
 		}
 	}
 
