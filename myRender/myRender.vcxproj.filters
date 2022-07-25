@@ -122,6 +122,12 @@
     <None Include="modelFrag.glsl">
       <Filter>shader</Filter>
     </None>
+    <None Include="shadowFrag.glsl">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="shadowVert.glsl">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils.h">

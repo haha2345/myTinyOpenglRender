@@ -61,6 +61,7 @@ void init()
 
 	if (glewInit() != GLEW_OK) { exit(EXIT_FAILURE); }
 	glfwSwapInterval(1);
+	MenuManager::instance()->initMenu();
 
 	initialShader = new Shader("blinnVert.glsl", "blinnFrag.glsl");
 	lightCubeShader = new Shader("colorVert.glsl", "colorFrag.glsl");
@@ -81,7 +82,6 @@ void init()
 	SceneManager::instance();
 	TerrainManager::instance();
 
-	MenuManager::instance()->initMenu();
 }
 
 
@@ -96,35 +96,39 @@ void display(double currentTime)
 
 	//创建视图矩阵，模型矩阵和视图-模型矩阵
 	CameraManager::instance()->getCurCamera()->updateViewMatrix();
+	MenuManager::instance()->updateMenu();
 
-	light->setPosition(mo->getPosition());
+	light->setPosition(glm::vec3(1,1,1));
 	initialShader->use();
-	initialShader->setVec3("light.position",light->getPosition());
-	initialShader->setVec3("light.direction", -0.2f, -1.0f, -0.3f);
+	initialShader->setVec3("viewPos", CameraManager::instance()->getCurCamera()->getPosition());
+	initialShader->setVec3("light.position", glm::vec3(1, 1, 1));
+	initialShader->setVec3("light.direction", -1, -1.0f, -1);
 
-	initialShader->setVec3("light.ambient", 0.5f, 0.5f, 0.5f);
-	initialShader->setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
+	initialShader->setVec3("light.ambient", 0.0f, 0.0f, 0.0f);
+	initialShader->setVec3("light.diffuse", 1.0f, 1.0f,1.0f);
 	initialShader->setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 	initialShader->setFloat("light.constant", 1.0f);
 	initialShader->setFloat("light.linear", 0.09f);
 	initialShader->setFloat("light.quadratic", 0.032f);
-	initialShader->setFloat("material.shininess", 10.0f);
+	initialShader->setFloat("material.shininess", 32.0f);
 
 
 	mo->render(modelShader);
 
 	// FileImportManager::instance()->show(initialShader);
-	MenuManager::instance()->updateMenu();
-	MenuManager::instance()->renderMenu();
+
 	SceneManager::instance()->draw(initialShader);
 	TerrainManager::instance()->getTerrainObject()->render(initialShader);
 	TerrainManager::instance()->getTerrainObject()->update(CameraManager::instance()->getCurCamera().get());
 
 
 	//调整OpenGL设置，绘制模型
+	glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CCW);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
+	MenuManager::instance()->renderMenu();
 }
 
 

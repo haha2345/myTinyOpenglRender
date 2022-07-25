@@ -68,12 +68,15 @@ void MeshObject::renderBuildInModel(Shader* shader, bool useTex)
 	if (useTex)
 	{
 		glActiveTexture(GL_TEXTURE0);
+		glUniform1i(glGetUniformLocation(shader->ID, "texture_diffuse1"), 0);
 		glBindTexture(GL_TEXTURE_2D, TextureManager::instance()->loadDefaultD());
 
-		glActiveTexture(GL_TEXTURE1);
+		glActiveTexture(GL_TEXTURE0+1);
+		glUniform1i(glGetUniformLocation(shader->ID, "texture_normal1"), 1);
 		glBindTexture(GL_TEXTURE_2D, TextureManager::instance()->loadDefaultN());
 
-		glActiveTexture(GL_TEXTURE2);
+		glActiveTexture(GL_TEXTURE0+2);
+		glUniform1i(glGetUniformLocation(shader->ID, "texture_diffuse1"), 2);
 		glBindTexture(GL_TEXTURE_2D, TextureManager::instance()->loadDefaultS());
 	}
 

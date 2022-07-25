@@ -189,6 +189,8 @@
     <None Include="fragShader.glsl" />
     <None Include="modelFrag.glsl" />
     <None Include="modelVert.glsl" />
+    <None Include="shadowFrag.glsl" />
+    <None Include="shadowVert.glsl" />
     <None Include="vertShader.glsl" />
   </ItemGroup>
   <ItemGroup>

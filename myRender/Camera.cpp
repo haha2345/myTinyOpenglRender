@@ -12,7 +12,7 @@ glm::vec3 front = glm::vec3(0.0, 0.0f, -1.0f);
 
 Camera::Camera()
 {
-	position_ = glm::vec3(0.0f, 0.0f, 3.0f);
+	position_ = glm::vec3(0.0f, 1.0f, 3.0f);
 	cameraTarget_ = glm::vec3(0.0f, 0.0f, 0.0f);
 	cameraDirection_ = glm::vec3(0.0, 0.0f, -1.0f);
 	cameraUp_ = glm::vec3(0.0, 1.0f, 0.0f);
