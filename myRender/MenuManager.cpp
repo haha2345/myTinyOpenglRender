@@ -6,6 +6,8 @@
 //
 #include "MenuManager.h"
 
+#include <thread>
+
 
 MenuManager* MenuManager::ins_ = nullptr;
 MenuManager::MenuManager()
@@ -38,6 +40,12 @@ void MenuManager::drawMainMenuBar_Scene()
 	if (ImGui::MenuItem("Import Model"))
 	{
 		importModel("Model/nanosuit/nanosuit.obj");
+		// std::this_thread::sleep_for(std::chrono::seconds(2));//阻塞当前线程10000毫秒
+		// importModel("Model/fbx/Dragon 2.5_fbx.fbx");
+		importModel("Model/schofield-mod/schofield-pistol-low.obj");
+
+		// importModel("Model/sword/Sting-Sword-lowpoly.obj");
+
 	}
 	if (ImGui::MenuItem("Add a Cube"))
 	{
@@ -253,6 +261,11 @@ void MenuManager::drawObjEditorDialog()
 	}
 	ImGui::End();
 
+}
+
+void MenuManager::drawFileBrowser()
+{
+	//TODO
 }
 
 void MenuManager::importModel(std::string path)

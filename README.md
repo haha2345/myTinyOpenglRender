@@ -9,12 +9,13 @@ This is an tiny render based on OpenGL.
 - light:white_check_mark:   
 - model import:white_check_mark:   
 - texture:white_check_mark:   
-- Materials<WIP>
-- GUI<WIP>
+- Materials:white_check_mark:
+- GUI:white_check_mark:
+- maybe another features will be added…
 
-Latest screenshot (not final):
+Latest screenshot:
 
-![image-20220720143204675](README.assets/image-20220720143204675.png)
+![image-20220725213258607](README.assets/image-20220725213258607.png)
 
 ### Contorl:
 

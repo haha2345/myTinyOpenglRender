@@ -9,6 +9,7 @@
 #define __MENUMANAGER_H__
 #include <memory>
 #include <string>
+#include <filesystem>
 #include <GL\glew.h>
 #include <GLFW\glfw3.h>
 #include "imgui/imgui.h"
@@ -39,6 +40,7 @@ private:
 
 	void drawSceneEditorDialog();
 	void drawObjEditorDialog();
+	void drawFileBrowser();
 
 	void importModel(std::string path);
 	

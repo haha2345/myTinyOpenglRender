@@ -83,6 +83,7 @@ void FileImportManager::loadFile(std::string path)
     printf("\n");
 
     path_ = directory;
+    std::string fileName = path.substr(path.find_last_of('/'), path.size());
 
 
     std::vector<Vertex> vertices;
@@ -196,6 +197,7 @@ void FileImportManager::loadFile(std::string path)
     tempObject->setTexture(loadedTextures_);
     tempObject->setMeshType(MeshType::loaded);
     tempObject->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+    tempObject->setName(fileName);
     //保存模型
     printf("第一次加载 %p\n", tempObject);
 
